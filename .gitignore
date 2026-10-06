@@ -1,0 +1,20 @@
+# ---- 构建产物 ----
+.build/
+build/
+DerivedData/
+*.dmg
+
+# ---- 系统 ----
+.DS_Store
+._*
+
+# ---- 测试素材 ----
+# 体积大 / 可能含个人素材或第三方 LUT，一律不入库。
+# 需要时用 scripts/make_test_assets.sh 生成合成样本。
+TestAssets/*
+!TestAssets/README.md
+
+# ---- 日志与临时文件 ----
+*.log
+/tmp/
+*.ips
