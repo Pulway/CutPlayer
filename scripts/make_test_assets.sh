@@ -5,8 +5,24 @@ export PATH="/opt/homebrew/bin:$PATH"
 cd "$(dirname "$0")/.."
 mkdir -p TestAssets
 
+# 选 ffmpeg：优先用打包好的 App 内那份（自包含、已签名，不受系统 ffmpeg 影响），
+# 其次才是 Homebrew / PATH 里的。可用 FFMPEG=/path/to/ffmpeg 覆盖。
+FFMPEG="${FFMPEG:-}"
+if [ -z "$FFMPEG" ]; then
+  if [ -x "build/CutPlayer.app/Contents/Resources/ffmpeg" ]; then
+    FFMPEG="build/CutPlayer.app/Contents/Resources/ffmpeg"
+  else
+    FFMPEG="$(command -v ffmpeg || true)"
+  fi
+fi
+[ -n "$FFMPEG" ] && [ -x "$FFMPEG" ] || {
+  echo "✘ 找不到 ffmpeg。请先 brew install ffmpeg，或先 ./scripts/build_app.sh 打包（用 App 内置的那份）"
+  exit 1
+}
+echo "▶ 使用 ffmpeg: $FFMPEG"
+
 echo "▶ 生成 10-bit 4K 测试视频（H.265 10bit, 4s）..."
-arch -arm64 ffmpeg -y -hide_banner -loglevel error \
+"$FFMPEG" -y -hide_banner -loglevel error \
   -f lavfi -i "testsrc2=size=3840x2160:rate=24" \
   -f lavfi -i "sine=frequency=440:duration=4" \
   -t 4 -pix_fmt yuv420p10le \

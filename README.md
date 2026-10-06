@@ -8,9 +8,8 @@
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-macOS%2014%2B%20arm64-lightgrey)]()
-[![CI](https://github.com/OWNER/CutPlayer/actions/workflows/ci.yml/badge.svg)](https://github.com/OWNER/CutPlayer/actions/workflows/ci.yml)
+[![CI](https://github.com/Pulway/CutPlayer/actions/workflows/ci.yml/badge.svg)](https://github.com/Pulway/CutPlayer/actions/workflows/ci.yml)
 
-<!-- 发布前：把上面 CI 徽章与文末链接里的 OWNER 换成你的 GitHub 用户名 -->
 
 > 当前版本 **0.1.1** · Apple Silicon (arm64) · macOS 14+ · 详细用法见 [使用手册](docs/使用手册.md)
 
