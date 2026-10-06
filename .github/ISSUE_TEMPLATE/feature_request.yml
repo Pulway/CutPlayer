@@ -1,0 +1,36 @@
+name: 功能建议
+description: 想要的新功能或改进
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: 你想解决什么问题
+      description: 描述使用场景比直接给方案更有用
+      placeholder: "我在做 … 的时候，需要 …，但现在只能 …"
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 你设想的方案（可选）
+  - type: dropdown
+    id: area
+    attributes:
+      label: 涉及模块
+      options:
+        - 播放 / 解码 / 渲染
+        - 监看 LUT
+        - 亮度曲线
+        - 截图 / 片段导出
+        - 播放列表 / 界面
+        - 其它
+    validations:
+      required: true
+  - type: checkboxes
+    id: constraints
+    attributes:
+      label: 请确认不违反本项目的既定约束
+      options:
+        - label: 该功能不会让亮度曲线进入截图/导出（这是设计约定）
+        - label: 该功能不需要放弃 4K 全尺寸播放（不引入播放降采样方案）

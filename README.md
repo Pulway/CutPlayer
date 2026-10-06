@@ -6,6 +6,12 @@
 
 ![应用图标](docs/images/app-icon.png)
 
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
+[![Platform](https://img.shields.io/badge/platform-macOS%2014%2B%20arm64-lightgrey)]()
+[![CI](https://github.com/OWNER/CutPlayer/actions/workflows/ci.yml/badge.svg)](https://github.com/OWNER/CutPlayer/actions/workflows/ci.yml)
+
+<!-- 发布前：把上面 CI 徽章与文末链接里的 OWNER 换成你的 GitHub 用户名 -->
+
 > 当前版本 **0.1.1** · Apple Silicon (arm64) · macOS 14+ · 详细用法见 [使用手册](docs/使用手册.md)
 
 ---
@@ -144,7 +150,8 @@ CutPlayer/
 ├── Tests/CutPlayerTests/     自研测试 harness
 ├── scripts/                  构建、打包、测试素材生成、图标生成
 ├── Resources/                Info.plist、AppIcon.icns
-├── docs/                     使用手册 / 架构说明 / 图片
+├── docs/                     使用手册 / 架构说明 / 发布流程 / 图片
+├── .github/                  CI、Release 工作流、issue / PR 模板
 └── TestAssets/               测试素材（已 gitignore，用脚本生成）
 ```
 
@@ -222,7 +229,7 @@ CutPlayer/
 
 ## 许可证
 
-**GPL-3.0-or-later** · Copyright (C) 2025 CutPlayer contributors · 全文见 [LICENSE](LICENSE)
+**GPL-3.0-or-later** · Copyright (C) 2026 CutPlayer contributors · 全文见 [LICENSE](LICENSE)
 
 为什么选它：
 
@@ -240,12 +247,15 @@ CutPlayer/
 
 ## 贡献
 
-欢迎 issue 与 PR。改动前建议：
+欢迎 issue 与 PR —— 请先读 **[CONTRIBUTING.md](CONTRIBUTING.md)**（环境准备、代码风格、
+**不能破坏的 7 条约定**、常见改动怎么做）。要点：
 
-1. 跑一遍 `swift run --arch arm64 CutPlayerTests` 与 `--selftest`，确认基线是绿的；
+1. 跑 `make test` 与 `make selftest`，确认基线是绿的；
 2. 涉及画面/色彩的改动，请附上自检 PSNR 数值变化；
 3. 涉及 UI 的改动，请说明在**全屏**与**非全屏**两种状态下的表现。
 
+版本历史见 **[CHANGELOG.md](CHANGELOG.md)**；维护者发布流程见 **[docs/RELEASE.md](docs/RELEASE.md)**。
+
 ---
 
-*CutPlayer · GPL-3.0-or-later · [使用手册](docs/使用手册.md) · [架构说明](docs/ARCHITECTURE.md)*
+*CutPlayer · GPL-3.0-or-later · [使用手册](docs/使用手册.md) · [架构说明](docs/ARCHITECTURE.md) · [更新日志](CHANGELOG.md) · [贡献指南](CONTRIBUTING.md)*

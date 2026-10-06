@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 使用说明（先看这里）
+    url: https://github.com/exampleuser/CutPlayer/blob/main/docs/使用手册.md
+    about: 每个按钮的作用、快捷键、常见问题
+  - name: 架构与设计取舍
+    url: https://github.com/exampleuser/CutPlayer/blob/main/docs/ARCHITECTURE.md
+    about: 想改代码前建议先读

@@ -1,0 +1,60 @@
+name: 问题反馈
+description: 播放、LUT、截图、导出、界面等出现异常
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢反馈！为了能复现，请尽量填全下面几项。
+        **注意**：涉及素材的问题，请只描述素材规格（编码/位深/色度采样/分辨率），不要上传含隐私的素材。
+  - type: input
+    id: version
+    attributes:
+      label: CutPlayer 版本
+      description: 菜单栏 CutPlayer → 关于，或看 DMG 文件名
+      placeholder: "0.1.1"
+    validations:
+      required: true
+  - type: input
+    id: macos
+    attributes:
+      label: macOS 版本与机型
+      placeholder: "macOS 14.5 / MacBook Pro M3 Max"
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤
+      placeholder: |
+        1. 打开 …
+        2. 点 … 按钮
+        3. 出现 …
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期望行为 vs 实际行为
+    validations:
+      required: true
+  - type: textarea
+    id: media
+    attributes:
+      label: 相关素材规格（如涉及）
+      description: 用「媒体信息 ⌘I」或 `ffprobe` 的结果
+      placeholder: |
+        H.265 10bit 4:2:2, 3840x2160, 50fps, 标签 pc / 数据 limited
+  - type: textarea
+    id: logs
+    attributes:
+      label: 日志（如能提供）
+      description: "终端执行：`cat /tmp/cutplayer_gui.log | tail -50`，或用 `CUTPLAYER_DECODER_DEBUG=1` 启动"
+      render: shell
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: 自查
+      options:
+        - label: 已确认不是"输入色彩范围"选错导致的画面发灰/死黑（见使用手册常见问题）
+        - label: 已尝试最新 release 版本

@@ -1,0 +1,88 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    name: 构建 + 单元测试
+    runs-on: macos-14          # Apple Silicon runner（arm64）
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 查看环境
+        run: |
+          sw_vers
+          uname -m
+          swift --version
+
+      - name: 安装依赖（FFmpeg / mpv）
+        run: brew install ffmpeg mpv
+
+      - name: 缓存 SwiftPM 构建产物
+        uses: actions/cache@v4
+        with:
+          path: .build
+          key: ${{ runner.os }}-spm-${{ hashFiles('Package.swift') }}
+          restore-keys: ${{ runner.os }}-spm-
+
+      - name: 开发构建
+        run: arch -arm64 swift build --arch arm64
+
+      - name: 单元测试
+        run: arch -arm64 swift run --arch arm64 CutPlayerTests
+
+      - name: 打包 .app
+        run: ./scripts/build_app.sh arm64 release
+
+      - name: 校验签名
+        run: codesign --verify --deep --strict build/CutPlayer.app
+
+  selftest:
+    name: 端到端自检
+    runs-on: macos-14
+    needs: build-and-test
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 安装依赖（FFmpeg / mpv）
+        run: brew install ffmpeg mpv
+
+      - name: 打包 .app
+        run: ./scripts/build_app.sh arm64 release
+
+      - name: 生成测试素材
+        run: ./scripts/make_test_assets.sh
+
+      # 无头自检：真实解码 → 套 LUT → 曲线 → 截图 → 导出，再与 ffmpeg 参考帧比 PSNR。
+      # 需要 Metal 设备；GitHub 的 macOS runner 一般可用，若首次运行失败请看日志。
+      - name: 运行自检
+        run: |
+          build/CutPlayer.app/Contents/MacOS/CutPlayer --selftest \
+            --input "TestAssets/sample_4k10bit.mkv" \
+            --lut   "TestAssets/test_lift.cube" \
+            --outdir "$RUNNER_TEMP/cutplayer_selftest" | tee "$RUNNER_TEMP/selftest.log"
+
+      - name: 判定 pass 字段
+        run: |
+          if ! grep -q '"pass": *true' "$RUNNER_TEMP/selftest.log"; then
+            echo "✘ 自检未通过"; cat "$RUNNER_TEMP/selftest.log"; exit 1
+          fi
+          echo "✔ 自检通过"
+
+      - name: 归档自检产物
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: selftest-report
+          path: |
+            ${{ runner.temp }}/cutplayer_selftest
+            ${{ runner.temp }}/selftest.log
+          if-no-files-found: ignore
