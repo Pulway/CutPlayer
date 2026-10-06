@@ -1,0 +1,14 @@
+# 统一换行符，避免跨平台协作时整文件 diff
+* text=auto eol=lf
+
+# 二进制资源：不参与文本处理与 diff
+*.icns  binary
+*.png   binary
+*.jpg   binary
+*.mp4   binary
+*.mkv   binary
+*.dmg   binary
+*.cube  text
+
+# 文档里的图片在 diff 里折叠
+docs/images/* linguist-documentation
